@@ -5,7 +5,7 @@ fetch("./assets/toilet_catalog.json")
 var currentPage = 0;
 var numPages;
 var catalog;
-const elementsPerPage = 12;
+const elementsPerPage = 16;
 
 function loadCatalog(cat){
     catalog = cat;
@@ -34,6 +34,7 @@ function prevPage(){
         goToPage(currentPage - 1);
     }
 }
+
 function addCatalogtoDisplay(catalog){
     var elements_container = document.getElementById("product_elements");
 
@@ -45,6 +46,9 @@ function addCatalogtoDisplay(catalog){
                         <div class="card shadow-lg rounded-4" type="button">
                             <a href="./index.html" class="stretched-link"></a>
                             <img src="${imgLocation}" alt="Executive One-Piece Elongated Toilet" class="rounded-top-4">
+                            
+                            <!--todo-maybe add a star rating at some point-->
+                            
                             <div class="card-body">
                                 <p class="card-title fw-bold">${catalog[i]["Brand"]}</p>
                                 <p class="card-text">${catalog[i]["Product Name"]}</p>
@@ -74,3 +78,61 @@ function createPagination(){
     pag.innerHTML += '<li class="page-item"><a class="page-link" onclick="nextPage()">Next</a></li>';
 }
 
+function changeSort(sortType){
+
+    switch (sortType) {
+        case 'PHL':
+            //price high to low
+            catalog.sort((a,b) => {
+                if(a["Price"] < b["Price"])
+                    return 1;
+                else if(a["Price"] > b["Price"])
+                    return -1;
+
+                return 0;
+            });
+            break;
+
+        case 'PLH':
+            //price low to high
+            catalog.sort((a,b) => {
+                if(a["Price"] > b["Price"])
+                    return 1;
+                else if(a["Price"] < b["Price"])
+                    return -1;
+
+                return 0;
+            });
+            break;
+
+        case 'Brand':
+            //Brand A to Z
+            catalog.sort((a,b) => {
+                if(a["Brand"] > b["Brand"])
+                    return 1;
+                else if(a["Brand"] < b["Brand"])
+                    return -1;
+
+                return 0;
+            });
+            break;
+
+        case 'Rating':
+            //Rating High to Low (If they have the same rating the More Expensive comes first)
+            catalog.sort((a,b) => {
+                if(a["Rating"] < b["Rating"])
+                    return 1;
+                else if(a["Rating"] > b["Rating"])
+                    return -1;
+                else if(a["Price"] < b["Price"])
+                    return 1;
+                else if(a["Price"] > b["Price"])
+                    return -1;
+                return 0;
+            });
+            break;
+
+    }
+
+    goToPage(0);
+}
