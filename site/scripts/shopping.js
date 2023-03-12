@@ -40,11 +40,12 @@ function addCatalogtoDisplay(catalog){
 
     for (let i = 0; i < catalog.length; i++){
         let imgLocation = "./assets/toilet_pictures/" + catalog[i]["Picture"];
+        let destinationUrl = "./product.html" + "?Brand=" + catalog[i]["Brand"] + "&Name=" + catalog[i]["Product Name"];
 
         elements_container.innerHTML +=
             `<div class="d-grid col-md-6 col-lg-5 col-xl-3 p-1">
                         <div class="card shadow-lg rounded-4" type="button">
-                            <a href="./index.html" class="stretched-link"></a>
+                            <a href="${destinationUrl}" class="stretched-link"></a>
                             <img src="${imgLocation}" alt="Executive One-Piece Elongated Toilet" class="rounded-top-4">
                             
                             <!--todo-maybe add a star rating at some point-->
